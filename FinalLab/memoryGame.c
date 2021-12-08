@@ -1,7 +1,5 @@
 #include <msp430.h>
 #include <libTimer.h>
-#include "lcdutils.h"
-#include "lcddraw.h"
 #include "draw_shapes.h"
 #include "buzzer.h"
 #include "switchesLCD.h"
@@ -19,6 +17,15 @@ void main(void)
   buzzer_init();
   switch_init();
   init_game();
+
+  draw_button_rectangle();
+  draw_button_triangle();
+  draw_button_X();
+  draw_button_circle();
+
+  draw_matching_shapes(matchShapes);
+  clear_lvl();
+  draw_scoreboard(matchShapes);
   
   enableWDTInterrupts();
 

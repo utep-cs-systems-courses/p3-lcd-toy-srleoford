@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "draw_shapes.h"
-#include <lcdutils.h>
-#include <lcddraw.h>
+#include "lcdutils.h"
+#include "lcddraw.h"
 
 /* Default positions for shapes for buttons */
 #define INTERFACE_Y_POS 140

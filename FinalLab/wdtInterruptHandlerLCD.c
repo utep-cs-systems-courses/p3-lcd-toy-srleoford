@@ -1,6 +1,6 @@
 #include <msp430.h>
 #include "libTimer.h"
-#include "stateMachine.h"
+#include "draw_shapes.h"
 #include "switchesLCD.h"
 #include "buzzer.h"
 

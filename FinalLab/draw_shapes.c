@@ -37,8 +37,8 @@ void init_shapes(void){
   buttonRect.rect_y = INTERFACE_Y_POS;
   buttonRect.rect_inner_x = buttonRect.rect_x + 2;
   buttonRect.rect_inner_y = buttonRect.rect_y + 2;
-  buttonRect.height = 25;
-  buttonRect.width = 25;
+  buttonRect.height = 24;
+  buttonRect.width = 24;
   buttonRect.color = COLOR_HOT_PINK;
 
   //To be used for shapes not yet stored in history
@@ -64,7 +64,7 @@ void init_shapes(void){
   buttonCir.cir_y = INTERFACE_Y_POS;
   buttonCir.inner_cir_x = buttonCir.cir_x + 2;
   buttonCir.inner_cir_y = buttonCir.cir_y + 2;
-  buttonCir.r = 13;
+  buttonCir.r = 12;
   buttonCir.color = COLOR_FIREBRICK;
 
   //To be used for display to show player how many are correct
@@ -86,8 +86,8 @@ void init_shapes(void){
   /* Vars for triangles */
   buttonTri.tri_x = INTERFACE_X_POS_TWO;
   buttonTri.tri_y = INTERFACE_Y_POS;
-  buttonTri.height = 25;
-  buttonTri.base = 25;
+  buttonTri.height = 24;
+  buttonTri.base = 24;
   buttonTri.color = COLOR_SPRING_GREEN;
 
   //Triangle to draw for level
@@ -98,10 +98,10 @@ void init_shapes(void){
   lvlTri.color = COLOR_SPRING_GREEN;
 
   /* Vars for 'X's */
-  buttonX.outWidth = 25;
-  buttonX.inWidth = 23;
-  buttonX.outHeight = 25;
-  buttonX.inHeight = 23;
+  buttonX.outWidth = 24;
+  buttonX.inWidth = 22;
+  buttonX.outHeight = 24;
+  buttonX.inHeight = 22;
   buttonX.line_x1 = INTERFACE_X_POS_THREE - (buttonX.outWidth/2);
   buttonX.line_x2 = INTERFACE_X_POS_THREE - (buttonX.inWidth/2);
   buttonX.line_y1 = INTERFACE_Y_POS - (buttonX.inHeight/2);
@@ -134,13 +134,9 @@ void init_shapes(void){
 void draw_button_rectangle(void){
   int x = buttonRect.rect_x - (buttonRect.width/2);
   int y = buttonRect.rect_y - (buttonRect.height/2);
-  int dX = buttonRect.rect_inner_x - buttonRect.rect_x;
-  int dY = buttonRect.rect_inner_y - buttonRect.rect_y;
-  int dWidth = buttonRect.width - (dX * 2);
-  int dHeight = buttonRect.height - (dY * 2);
 
-  fillRectangle(x, y, buttonRect.width, buttonRect.height, buttonRect.color);
-  fillRectangle(x + dX, y + dY , dWidth, dHeight, bgColor);
+  for(int i = 0; i < 2; i++)
+    drawRectOutline(x + i, y + i, buttonRect.width - (i * 2), buttonRect.height - (i * 2), buttonRect.color);
 }
 
 void draw_button_outline_rectangle(void){
@@ -148,7 +144,7 @@ void draw_button_outline_rectangle(void){
   int x = buttonRect.rect_x - (buttonRect.width/2);
   int y = buttonRect.rect_y - (buttonRect.height/2);
   
-  drawRectOutline(x, y, buttonRect.width + 2, buttonRect.height + 2, COLOR_BLACK);
+  drawRectOutline(x, y, buttonRect.width, buttonRect.height, COLOR_BLACK);
 }
 
 void erase_button_outline_rectangle(void){
@@ -156,7 +152,7 @@ void erase_button_outline_rectangle(void){
   int x = buttonRect.rect_x - (buttonRect.width/2);
   int y = buttonRect.rect_y - (buttonRect.height/2);
   
-  drawRectOutline(x, y, buttonRect.width + 2, buttonRect.height + 2, bgColor);
+  drawRectOutline(x, y, buttonRect.width, buttonRect.height, buttonRect.color);
 }
 
 void draw_rectangle(rectangle rect){
@@ -204,33 +200,41 @@ void draw_button_triangle(void){
 void draw_button_outline_triangle(void){
 
   int step;
-
+  int x = buttonTri.tri_x;
+  int y = buttonTri.tri_y;
+  
   // draw a n equilateral triangle
   // starts at the top and works down
   // at the first row the width is 1, second 2 and so on
-  for (step = 0; step < buttonTri.height; step++) {
+  for (step = 0; step < buttonTri.height + 2; step++) {
     // left side of triangle
-    u_char start_col = buttonTri.tri_x - (step / 2) - 1;
+    u_char start_col = buttonTri.tri_x - (step / 2);
     // right side of triangle
-    u_char end_col   = buttonTri.tri_x + (step / 2) + 1;
-    fillRectangle(buttonTri.tri_x - (step / 2) + 1, (buttonTri.tri_y - (buttonTri.height/2) - 1) + step, (end_col - start_col), 2, COLOR_BLACK);
+    u_char end_col   = buttonTri.tri_x + (step / 2);
+    fillRectangle(start_col + 1, (buttonTri.tri_y - (buttonTri.height/2) - 2) + step, 1, 1, COLOR_BLACK);
+    fillRectangle(end_col, (buttonTri.tri_y - (buttonTri.height/2) - 2) + step, 1, 1, COLOR_BLACK);
   }
+  fillRectangle(x - (step/2) + 2, y - (buttonTri.height/2) + step - 2, buttonTri.base, 1, COLOR_BLACK);
 }
 
 void erase_button_outline_triangle(void){
 
   int step;
-
+  int x = buttonTri.tri_x;
+  int y = buttonTri.tri_y;
+  
   // draw a n equilateral triangle
   // starts at the top and works down
   // at the first row the width is 1, second 2 and so on
-  for (step = 0; step < buttonTri.height; step++) {
+  for (step = 0; step < buttonTri.height + 2; step++) {
     // left side of triangle
-    u_char start_col = buttonTri.tri_x - (step / 2) - 1;
+    u_char start_col = buttonTri.tri_x - (step / 2);
     // right side of triangle
-    u_char end_col   = buttonTri.tri_x + (step / 2) + 1;
-    fillRectangle(buttonTri.tri_x - (step / 2) + 1, (buttonTri.tri_y - (buttonTri.height/2) - 1) + step, (end_col - start_col), 2, bgColor);
+    u_char end_col   = buttonTri.tri_x + (step / 2);
+    fillRectangle(start_col + 1, (buttonTri.tri_y - (buttonTri.height/2) - 2) + step, 1, 1, bgColor);
+    fillRectangle(end_col, (buttonTri.tri_y - (buttonTri.height/2) - 2) + step, 1, 1, bgColor);
   }
+  fillRectangle(x - (step/2) + 2, y - (buttonTri.height/2) + step - 2, buttonTri.base, 1, bgColor);
 }
 
 void draw_triangle(triangle tri){
@@ -321,14 +325,15 @@ void draw_button_circle(void){
 void draw_button_outline_circle(void){
   
   int x_coord = buttonCir.cir_x;
-  int y_coord = buttonCir.cir_y - 1;
+  int y_coord = buttonCir.cir_y;
   int r = buttonCir.r;
   // first point will be the very top;
   int x_point = 0;
-  int y_point = r + 1;
+  int y_point = r;
   int decision = 3 - (2 * r);
 
-  drawLines(x_coord, y_coord, x_point, y_point, COLOR_BLACK);
+  drawPixel(x_coord, y_coord - y_point, COLOR_BLACK);
+  drawPixel(x_coord, y_coord + y_point, COLOR_BLACK);
 
   while (y_point >= x_point) {
     // move x over one
@@ -342,21 +347,35 @@ void draw_button_outline_circle(void){
     } else {
       decision = decision + 4 * x_point + 6;
     }
-    drawLines(x_coord, y_coord, x_point, y_point, COLOR_BLACK);
+    // Top left
+    drawPixel(x_coord-x_point, y_coord-y_point, COLOR_BLACK);
+    drawPixel(x_coord-y_point, y_coord-x_point, COLOR_BLACK);
+    // Top right
+    drawPixel(x_coord+x_point, y_coord-y_point, COLOR_BLACK);
+    drawPixel(x_coord+y_point, y_coord-x_point, COLOR_BLACK);
+    // Bottom left
+    drawPixel(x_coord-x_point, y_coord+y_point, COLOR_BLACK);
+    drawPixel(x_coord-y_point, y_coord+x_point, COLOR_BLACK);
+    // Bottom right
+    drawPixel(x_coord+x_point, y_coord+y_point, COLOR_BLACK);
+    drawPixel(x_coord+y_point, y_coord+x_point, COLOR_BLACK);
   }
+  drawPixel(x_coord + r, y_coord, COLOR_BLACK);
+  drawPixel(x_coord - r, y_coord, COLOR_BLACK);
 }
 
 void erase_button_outline_circle(void){
   
   int x_coord = buttonCir.cir_x;
-  int y_coord = buttonCir.cir_y - 1;
+  int y_coord = buttonCir.cir_y;
   int r = buttonCir.r;
   // first point will be the very top;
   int x_point = 0;
-  int y_point = r + 1;
+  int y_point = r;
   int decision = 3 - (2 * r);
 
-  drawLines(x_coord, y_coord, x_point, y_point, bgColor);
+  drawPixel(x_coord, y_coord - y_point, buttonCir.color);
+  drawPixel(x_coord, y_coord + y_point, buttonCir.color);
 
   while (y_point >= x_point) {
     // move x over one
@@ -370,8 +389,21 @@ void erase_button_outline_circle(void){
     } else {
       decision = decision + 4 * x_point + 6;
     }
-    drawLines(x_coord, y_coord, x_point, y_point, bgColor);
+    // Top left
+    drawPixel(x_coord-x_point, y_coord-y_point, buttonCir.color);
+    drawPixel(x_coord-y_point, y_coord-x_point, buttonCir.color);
+    // Top right
+    drawPixel(x_coord+x_point, y_coord-y_point, buttonCir.color);
+    drawPixel(x_coord+y_point, y_coord-x_point, buttonCir.color);
+    // Bottom left
+    drawPixel(x_coord-x_point, y_coord+y_point, buttonCir.color);
+    drawPixel(x_coord-y_point, y_coord+x_point, buttonCir.color);
+    // Bottom right
+    drawPixel(x_coord+x_point, y_coord+y_point, buttonCir.color);
+    drawPixel(x_coord+y_point, y_coord+x_point, buttonCir.color);
   }
+  drawPixel(x_coord + r, y_coord, buttonCir.color);
+  drawPixel(x_coord - r, y_coord, buttonCir.color);
 }
 
 void draw_circle(circle cir){
@@ -436,25 +468,25 @@ void draw_button_X(void){
 
   int i;
   int lineLength = (buttonX.line_x2 - buttonX.line_x1) + buttonX.inWidth;
+  int x1 = buttonX.line_x1;
+  int x2 = buttonX.line_x2;
+  int y1 = buttonX.line_y1;
+  int y2 = buttonX.line_y2;
   
-  /* Draw the 1st line from top left to bottom right */
-  /* Draw the 2nd line from top left to bottom right */
-  /* Draw the 3rd line from bottom left to top right */
   for (i = 1; i < lineLength; i++){
     // Draw 1st line from top left to bottom right
-    drawPixel(buttonX.line_x1 + i, buttonX.line_y1 + i, buttonX.color);
+    drawPixel(x1 + i, y1 + i, buttonX.color);
     // Draw 2nd line from top left to bottom right
-    drawPixel(buttonX.line_x2 + i, buttonX.line_y2 + i, buttonX.color);
+    drawPixel(x2 + i, y2 + i, buttonX.color);
     // Draw 3rd line from bottom left to top right, mirror over X-axis of 1st line
-    drawPixel(buttonX.line_x1 + i, (buttonX.line_y1 + buttonX.inHeight) - i, buttonX.color);
+    drawPixel(x1 + i, (y1 + buttonX.inHeight) - i, buttonX.color);
     // Draw 4th line from bottom left to top right, mirror over X-axis of 2nd line
-    drawPixel(buttonX.line_x2 + i, (buttonX.line_y2 + buttonX.outHeight) - i, buttonX.color);
-    // Fill in between lines
+    drawPixel(x2 + i, (y2 + buttonX.outHeight) - i, buttonX.color);
     if (i < lineLength - 1){
       //Fill between lines 1 and 2
-      drawPixel(buttonX.line_x1 + 1 + i, buttonX.line_y1 + i, buttonX.color);
+      drawPixel(x1 + 1 + i, y1 + i, buttonX.color);
       //Fill between lines 3 and 4
-      drawPixel(buttonX.line_x1 + 1 + i, (buttonX.line_y1 + buttonX.inHeight) - i, buttonX.color);
+      drawPixel(x1 + 1 + i, (y1 + buttonX.inHeight) - i, buttonX.color);
     }
   }
 }
@@ -463,40 +495,88 @@ void draw_button_outline_X(void){
 
   int i;
   int lineLength = (buttonX.line_x2 - buttonX.line_x1) + buttonX.inWidth;
+  int x1 = buttonX.line_x1-1;
+  int x2 = buttonX.line_x2;
+  int y1 = buttonX.line_y1;
+  int y2 = buttonX.line_y2-1;
+  int top_left_x = x1 + 2;
+  int top_left_y = y1;
+  int top_right_x = top_left_x + buttonX.outWidth - 1;
+  int top_right_y = top_left_y;
+  int bottom_left_x = top_left_x;
+  int bottom_left_y = y1 + buttonX.inHeight;
+  int bottom_right_x = top_right_x - 1;
+  int bottom_right_y = bottom_left_y;
   
-  /* Draw the 1st line from top left to bottom right */
-  /* Draw the 2nd line from top left to bottom right */
-  /* Draw the 3rd line from bottom left to top right */
-  for (i = 0; i < lineLength-1; i++){
-    // Draw 1st line from top left to bottom right
-    drawPixel(buttonX.line_x1 + i, buttonX.line_y1 + i, COLOR_BLACK);
-    // Draw 2nd line from top left to bottom right
-    drawPixel(buttonX.line_x2 + i, buttonX.line_y2 + i, COLOR_BLACK);
-    // Draw 3rd line from bottom left to top right, mirror over X-axis of 1st line
-    drawPixel(buttonX.line_x1 + i, (buttonX.line_y1 + buttonX.inHeight) - i, COLOR_BLACK);
-    // Draw 4th line from bottom left to top right, mirror over X-axis of 2nd line
-    drawPixel(buttonX.line_x2 + i, (buttonX.line_y2 + buttonX.outHeight) - i, COLOR_BLACK);
+  for (i = 1; i < (lineLength/2)+1; i++){
+    /* Drawing left half of outline */
+    // Draw 1st line, left/top to center
+    drawPixel(x1 + i, y1 + i, COLOR_BLACK);
+    // Draw 2nd line, top/left to center
+    drawPixel(x2 + i, y2 + i, COLOR_BLACK);
+    // Draw 3rd line, left/bottom to center
+    drawPixel(x1 + i, (y1 + buttonX.inHeight) - i, COLOR_BLACK);
+    // Draw 4th line, bottom/left to center
+    drawPixel(x2 + i, (y2 + buttonX.outHeight+2) - i, COLOR_BLACK);
+
+    /* Drawing right half of outline */
+    // Draw 1st line, right/top to center
+    drawPixel(x1 - i + buttonX.outWidth + 2, y1 + i, COLOR_BLACK);
+    // Draw 2nd line, top/right to center
+    drawPixel(x2 - i + buttonX.inWidth, y2 + i, COLOR_BLACK);
+    // Draw 3rd line, right/bottom to center
+    drawPixel(x1 - i + buttonX.outWidth + 2, (y1 + buttonX.inHeight) - i, COLOR_BLACK);
+    // Draw 4th line, bottom/right to center
+    drawPixel(x2 - i + buttonX.inWidth, (y2 + buttonX.outHeight+2) - i, COLOR_BLACK);
   }
+  drawPixel(top_left_x, top_left_y, COLOR_BLACK);
+  drawPixel(top_right_x, top_right_y, COLOR_BLACK);
+  drawPixel(bottom_right_x, bottom_right_y, COLOR_BLACK);
+  drawPixel(bottom_left_x, bottom_left_y, COLOR_BLACK);
 }
 
 void erase_button_outline_X(void){
 
   int i;
   int lineLength = (buttonX.line_x2 - buttonX.line_x1) + buttonX.inWidth;
+  int x1 = buttonX.line_x1-1;
+  int x2 = buttonX.line_x2;
+  int y1 = buttonX.line_y1;
+  int y2 = buttonX.line_y2-1;
+  int top_left_x = x1 + 2;
+  int top_left_y = y1;
+  int top_right_x = top_left_x + buttonX.outWidth - 1;
+  int top_right_y = top_left_y;
+  int bottom_left_x = top_left_x;
+  int bottom_left_y = y1 + buttonX.inHeight;
+  int bottom_right_x = top_right_x - 1;
+  int bottom_right_y = bottom_left_y;
   
-  /* Draw the 1st line from top left to bottom right */
-  /* Draw the 2nd line from top left to bottom right */
-  /* Draw the 3rd line from bottom left to top right */
-  for (i = 0; i < lineLength-1; i++){
-    // Draw 1st line from top left to bottom right
-    drawPixel(buttonX.line_x1 + i, buttonX.line_y1 + i, bgColor);
-    // Draw 2nd line from top left to bottom right
-    drawPixel(buttonX.line_x2 + i, buttonX.line_y2 + i, bgColor);
-    // Draw 3rd line from bottom left to top right, mirror over X-axis of 1st line
-    drawPixel(buttonX.line_x1 + i, (buttonX.line_y1 + buttonX.inHeight) - i, bgColor);
-    // Draw 4th line from bottom left to top right, mirror over X-axis of 2nd line
-    drawPixel(buttonX.line_x2 + i, (buttonX.line_y2 + buttonX.outHeight) - i, bgColor);
+  for (i = 1; i < (lineLength/2)+1; i++){
+    /* Drawing left half of outline */
+    // Draw 1st line, left/top to center
+    drawPixel(x1 + i, y1 + i, bgColor);
+    // Draw 2nd line, top/left to center
+    drawPixel(x2 + i, y2 + i, bgColor);
+    // Draw 3rd line, left/bottom to center
+    drawPixel(x1 + i, (y1 + buttonX.inHeight) - i, bgColor);
+    // Draw 4th line, bottom/left to center
+    drawPixel(x2 + i, (y2 + buttonX.outHeight+2) - i, bgColor);
+
+    /* Drawing right half of outline */
+    // Draw 1st line, right/top to center
+    drawPixel(x1 - i + buttonX.outWidth + 2, y1 + i, bgColor);
+    // Draw 2nd line, top/right to center
+    drawPixel(x2 - i + buttonX.inWidth, y2 + i, bgColor);
+    // Draw 3rd line, right/bottom to center
+    drawPixel(x1 - i + buttonX.outWidth + 2, (y1 + buttonX.inHeight) - i, bgColor);
+    // Draw 4th line, bottom/right to center
+    drawPixel(x2 - i + buttonX.inWidth, (y2 + buttonX.outHeight+2) - i, bgColor);
   }
+  drawPixel(top_left_x, top_left_y, bgColor);
+  drawPixel(top_right_x, top_right_y, bgColor);
+  drawPixel(bottom_right_x, bottom_right_y, bgColor);
+  drawPixel(bottom_left_x, bottom_left_y, bgColor);
 }  
 
 void draw_X(ex x){

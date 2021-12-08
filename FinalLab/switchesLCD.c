@@ -1,6 +1,8 @@
 #include <msp430.h>
 #include "switchesLCD.h"
 #include "buzzer.h"
+#include "draw_shapes.h"
+#include "game.h"
 
 char switch1_state_down, switch2_state_down, switch3_state_down, switch4_state_down, switch_state_changed;
 

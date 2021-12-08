@@ -14,7 +14,7 @@ void main(void)
 {
   configureClocks();
   lcd_init();
-  clearScreen(COLOR_GRAY);
+  clearScreen(bgColor);
   init_shapes();
   buzzer_init();
   switch_init();
@@ -23,10 +23,6 @@ void main(void)
   draw_button_circle();
   draw_button_rectangle();
   draw_button_X();
-
-  //draw_matching_shapes(gameShapes);
-
-  //draw_scoreboard(gameShapes);
   
   enableWDTInterrupts();
 

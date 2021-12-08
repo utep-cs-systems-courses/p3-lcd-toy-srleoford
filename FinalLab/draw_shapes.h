@@ -55,7 +55,7 @@ typedef struct x_st {
   u_int color;
 } ex;
 
-extern u_int background_color;
+extern u_int bgColor;
 
 /* draws a rectangle for interface button*/
 void draw_button_rectangle(void);
@@ -81,7 +81,28 @@ void draw_button_X(void);
 /* draws an 'X' for generic location */
 void draw_X(ex x);
 
+/* draws one line horizontally */
+void drawHorizontalLine(u_int x_start, u_int x_end, u_int y, u_int colorBGR);
+
+/* draws lines top, bottom, and sides of x_coord, y_coord */
+void drawLines(u_int x_coord, u_int y_coord, u_int x_point, u_int y_point, u_int color);
+
 void init_shapes(void);
+
+/* Erase everything at the 'level' display area */
+void clear_lvl(void);
+
+/* Draws the outline for interface buttons */
+void draw_button_outline_rectangle(void);
+void draw_button_outline_triangle(void);
+void draw_button_outline_X(void);
+void draw_button_outline_circle(void);
+
+/* Erases the outline for interface buttons */
+void erase_button_outline_rectangle(void);
+void erase_button_outline_triangle(void);
+void erase_button_outline_X(void);
+void erase_button_outline_circle(void);
 
 extern circle buttonCir, correct, lvlCir;
 extern rectangle buttonRect, noShape, lvlRect;

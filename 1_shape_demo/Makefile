@@ -1,21 +1,21 @@
-# makfile configuration
-COMMON_OBJECTS		= draw_shapes.o
-CPU             	= msp430g2553
-CFLAGS          	= -mmcu=${CPU} -Os -I../h
-LDFLAGS		= -L../lib -L/opt/ti/msp430_gcc/include/ 
+all: libTimer.a
+
+CPU             = msp430g2553
+CFLAGS          = -mmcu=${CPU} -Os
 
 #switch the compiler (for the internal make rules)
 CC              = msp430-elf-gcc
-AS              = msp430-elf-gcc -mmcu=${CPU} -c
+AS              = msp430-elf-as
+AR              = msp430-elf-ar
 
-all: shape_demo.elf
+libTimer.a: clocksTimer.o sr.o
+	$(AR) crs $@ $^
 
-#additional rules for files
-shape_demo.elf: ${COMMON_OBJECTS} shape_demo.o
-	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd 
-
-load: shape_demo.elf
-	msp430loader.sh $^
+install: libTimer.a
+	mkdir -p ../h ../lib
+	mv $^ ../lib
+	cp *.h ../h
 
 clean:
-	rm -f *.o *.elf
+	rm -f timerLib.a *.o
+

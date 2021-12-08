@@ -29,7 +29,7 @@ update_shape(void)
     if (switch1_down) red = (red - 3) % 32;
     step ++;
   } else {
-     clearScreen(COLOR_BLUE);
+    clearScreen(COLOR_BLUE);
      step = 0;
   }
 }

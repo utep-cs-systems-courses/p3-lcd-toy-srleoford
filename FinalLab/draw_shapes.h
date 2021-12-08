@@ -104,6 +104,15 @@ void erase_button_outline_triangle(void);
 void erase_button_outline_X(void);
 void erase_button_outline_circle(void);
 
+/* Draws history of matching shapes for player */
+void draw_matching_shapes(int gameShapes[]);
+
+/*Draws scoreboard for player */
+void draw_scoreboard(int gameShapes[]);
+
+/* Draws display shapes for current lvl for player */
+void draw_lvl_shapes(int shape);
+
 extern circle buttonCir, correct, lvlCir;
 extern rectangle buttonRect, noShape, lvlRect;
 extern triangle buttonTri, lvlTri;

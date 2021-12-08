@@ -8,7 +8,7 @@ const char up = 0;
 
 char switch1_state, switch2_state, switch_state_changed;
 
-/* update he interrupt sense bits so 
+/* update the interrupt sense bits so 
    interrupts are fired when a switch changes
    position
    declared as static so it isn't visible

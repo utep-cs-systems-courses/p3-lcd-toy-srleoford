@@ -61,7 +61,7 @@ void drawChar5x7(u_char col, u_char row, char c,
 /** Modification:
  *  \Introduced var 'thick' to account for how thick the outline will be
  */
-void drawRectOutline(u_char colMin, u_char rowMin, u_char width, u_char height,
+void drawRectOutline(u_char colMin, u_char rowMin, u_char width, u_char height, u_char thick,
 		     u_int colorBGR);
 #endif // included
 

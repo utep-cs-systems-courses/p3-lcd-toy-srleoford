@@ -2,8 +2,7 @@
 #include "lcdutils.h"
 #include "lcddraw.h"
 
-void
-draw_rectangle(void)
+void draw_rectangle(void)
 {
   int height = 10;
   int width  = 60;
@@ -18,8 +17,7 @@ draw_rectangle(void)
 }
 
 
-void
-draw_triangle(void)
+void draw_triangle(void)
 {
   int height = 40;
   int row = 80, col = screenWidth / 2;
@@ -44,8 +42,7 @@ draw_triangle(void)
 }
 
 
-void
-drawHorizontalLine(u_int x_start, u_int x_end, u_int y, u_int colorBGR)
+void drawHorizontalLine(u_int x_start, u_int x_end, u_int y, u_int colorBGR)
 {
   u_int length = x_end - x_start;
   // set the draw area from the start of the line to the end
@@ -57,8 +54,7 @@ drawHorizontalLine(u_int x_start, u_int x_end, u_int y, u_int colorBGR)
   
 }
 
-void
-drawLines(u_int x_coord, u_int y_coord, u_int x_point, u_int y_point, u_int color)
+void drawLines(u_int x_coord, u_int y_coord, u_int x_point, u_int y_point, u_int color)
 {
   // bottom
   drawHorizontalLine(x_coord - x_point, x_coord + x_point, y_coord + y_point, color);
@@ -100,5 +96,3 @@ draw_circle(void)
     drawLines(x_coord, y_coord, x_point, y_point, color);
   }
 }
-  
-

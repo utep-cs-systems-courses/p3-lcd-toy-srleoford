@@ -18,7 +18,6 @@ install: libLcd.a
 	mkdir -p ../h ../lib
 	mv $^ ../lib
 	cp *.h ../h
-
 clean:
 	rm -f libLcd.a *.o *.elf
 

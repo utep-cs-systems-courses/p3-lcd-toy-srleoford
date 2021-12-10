@@ -4,6 +4,7 @@
 #include "switchesLCD.h"
 
 static enum {B = 4904, Ab = 4200, c = 3323, Bb = 3730} notes;
+
 static int musicState = 0;
 
 void buzzer_init()
@@ -29,8 +30,6 @@ void buzzer_set_period(short cycles) /* buzzer clock = 2MHz.  (period of 1k resu
 }
 
 void fanfare(void){
-  static int noteCount = 0;
-  noteCount++;
   
   switch (musicState){
   case 0:
@@ -57,15 +56,15 @@ void fanfare(void){
     musicState++;
     break;
   default:
-    musicState = 1;
+    musicState = 0;
     break;
   }
 }
 
-void sound_off_wrong(void){
+void wrongBuzz(void){
   buzzer_set_period(B);
 }
 
-void sound_off_match(){
-  buzzer_set_period(Bb);
+void rightBuzz(){
+  buzzer_set_period(6000);
 }

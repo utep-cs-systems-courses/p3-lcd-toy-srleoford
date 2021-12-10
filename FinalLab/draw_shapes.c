@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 #include "draw_shapes.h"
-#include <lcdutils.h>
-#include <lcddraw.h>
+#include "game.h"
+#include "lcdutils.h"
+#include "lcddraw.h"
 
 /* Default positions for shapes for buttons */
 #define INTERFACE_Y_POS 140
@@ -188,7 +189,7 @@ void draw_button_triangle(void){
   // Redraw triangle but fill smaller triangle inside
   // first triangle to create an outline of triangle
   // and not a fill
-  for (step = 0; step < buttonTri.height - 2; step++) {
+  for (step = 4; step < buttonTri.height - 2; step++) {
     // left side of triangle
     u_char start_col = buttonTri.tri_x - (step / 2) + 2;
     // right side of triangle
@@ -634,29 +635,50 @@ void drawLines(u_int x_coord, u_int y_coord, u_int x_point, u_int y_point, u_int
 
 void draw_matching_shapes(int gameShapes[]){
   int pos = HISTORY_X_POS;
-  int size = 10;
   // correct is circle, incorrect is X
   
-  for (int i = 0; i < size; i++){
+  for (int i = 0; i < level; i++){
     switch (gameShapes[i]){
     case 1:
-      correct.cir_x = (pos * i) + 10;
+      //Prime position by wiping out old pixels
+      noShape.rect_x = (pos * i) + 10;
+      noShape.rect_inner_x = noShape.rect_x + 2;
+      noShape.rect_inner_y = noShape.rect_y + 2;
+      noShape.color = bgColor;
+      draw_rectangle(noShape);
+
+      //Draw shape after spot's been cleared
+      correct.cir_x = (pos * i) + 9;
       correct.cir_y = HISTORY_Y_POS;
       correct.inner_cir_x = correct.cir_x + 12;
       correct.inner_cir_y = correct.cir_y + 2;
       draw_circle(correct);
       break;
     case 0:
-      incorrect.line_x1 = pos * i - (incorrect.outWidth/2) + 10;
-      incorrect.line_x2 = pos * i - (incorrect.inWidth/2) + 10;
+      //Prime position by wiping out old pixels
+      noShape.rect_x = (pos * i) + 10;
+      noShape.rect_inner_x = noShape.rect_x + 2;
+      noShape.rect_inner_y = noShape.rect_y + 2;
+      noShape.color = bgColor;
+      draw_rectangle(noShape);
+
+      //Draw shape after spot's been cleared
+      incorrect.line_x1 = pos * i - (incorrect.outWidth/2) + 8;
+      incorrect.line_x2 = pos * i - (incorrect.inWidth/2) + 8;
       incorrect.line_y1 = HISTORY_Y_POS - (incorrect.inHeight/2);
       incorrect.line_y2 = HISTORY_Y_POS - (incorrect.outHeight/2);
       draw_X(incorrect);
       break;
     default:
+      //Prime position by wiping out old pixels
       noShape.rect_x = (pos * i) + 10;
       noShape.rect_inner_x = noShape.rect_x + 2;
       noShape.rect_inner_y = noShape.rect_y + 2;
+      noShape.color = bgColor;
+      draw_rectangle(noShape);
+
+      //Draw shape after spot's been cleared
+      noShape.color = COLOR_BLUE;
       draw_rectangle(noShape);
       break;
     }
@@ -692,21 +714,47 @@ void clear_lvl(void){
   fillRectangle(0, LEVEL_Y_POS-25, screenWidth, 51, bgColor);
 }
 
-void draw_scoreboard(int gameShapes[]){
+void draw_scoreboard(int matchShapes[]){
 
   int size = 10;
   int i;
   int count = 0;
   
   for (i = 0; i < size; i++)
-    if (gameShapes[i] == 1)
+    if (matchShapes[i] == 1)
       count++;
   count *= 10;
 
-  char scoreboard[20] = "Score: ";
   char score[10];
-  sprintf(score, "%d", count);
+  itoa2(count, score);
+  reverse(score);
+  char scoreboard[20] = "Score: ";
+  
   strcat(scoreboard, score);
   
   drawString5x7(5, 5, scoreboard, COLOR_WHITE, COLOR_BLACK);  
+}
+
+void itoa2(int n, char s[]){
+  int i, sign;
+
+  if((sign = n) < 0)
+    n = -n;
+  i = 0;
+  do {
+    s[i++] = n % 10 + '0';
+  } while ((n /= 10) > 0);
+  if (sign < 0)
+    s[i++] = '-';
+  s[i] = '\0';
+}
+
+void reverse(char s[]){
+    int c, i, j;
+		   
+    for (i = 0, j = strlen(s)-1; i < j; i++, j--){ 
+      c = s[i];
+     s[i] = s[j];
+     s[j] = c;
+    }
 }

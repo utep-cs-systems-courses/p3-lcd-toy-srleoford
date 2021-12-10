@@ -6,6 +6,8 @@
 
 char switch1_state_down, switch2_state_down, switch3_state_down, switch4_state_down, switch_state_changed;
 
+static int musicState = 0;
+
 /* update he interrupt sense bits so 
    interrupts are fired when a switch changes
    position */
@@ -35,32 +37,55 @@ void switch_interrupt_handler(){
   switch2_state_down = (p2val & SW2) ? 0 : 1;
   switch3_state_down = (p2val & SW3) ? 0 : 1;
   switch4_state_down = (p2val & SW4) ? 0 : 1;
-  
-  if (switch1_state_down){
-    draw_button_outline_rectangle();
-  }
-  else {
-    erase_button_outline_rectangle();
-  }
-  
-  if (switch2_state_down){
-    draw_button_outline_triangle();
-  }
-  else{
-    erase_button_outline_triangle();
-  }
 
-  if (switch3_state_down){
-    draw_button_outline_X();
+  if (!presentShapes){
+    if (switch1_state_down){
+      draw_button_outline_rectangle();
+      storeShape(0);
+      if (isMatch())
+	rightBuzz();
+      else
+	wrongBuzz();
+    }
+    else{
+      erase_button_outline_rectangle();
+    }
+    
+    if (switch2_state_down){
+      draw_button_outline_triangle();
+      storeShape(1);
+      if (isMatch())
+	rightBuzz();
+      else
+	wrongBuzz();
+    }
+    else{
+      erase_button_outline_triangle();
+    }
+    
+    if (switch3_state_down){
+      draw_button_outline_X();
+      storeShape(2);
+      if (isMatch())
+	rightBuzz();
+      else
+	wrongBuzz();
+    }
+    else{
+      erase_button_outline_X();
+    }
+    
+    if (switch4_state_down){
+      draw_button_outline_circle();
+      storeShape(3);
+      if (isMatch())
+	rightBuzz();
+      else
+	wrongBuzz();
+    }
+    else{
+      erase_button_outline_circle();
+    }
   }
-  else{
-    erase_button_outline_X();
-  }
-
-  if (switch4_state_down){
-    draw_button_outline_circle();
-  }
-  else{
-    erase_button_outline_circle();
-  }
+  update_game();
 }

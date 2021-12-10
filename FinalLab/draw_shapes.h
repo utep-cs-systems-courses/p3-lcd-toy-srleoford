@@ -108,10 +108,13 @@ void erase_button_outline_circle(void);
 void draw_matching_shapes(int gameShapes[]);
 
 /*Draws scoreboard for player */
-void draw_scoreboard(int gameShapes[]);
+void draw_scoreboard(int matchShapes[]);
 
 /* Draws display shapes for current lvl for player */
 void draw_lvl_shapes(int shape);
+
+void itoa2(int n, char s[]);
+void reverse(char s[]);
 
 extern circle buttonCir, correct, lvlCir;
 extern rectangle buttonRect, noShape, lvlRect;

@@ -107,8 +107,11 @@ void erase_button_outline_circle(void);
 /* Draws history of matching shapes for player */
 void draw_matching_shapes(int gameShapes[]);
 
-/*Draws scoreboard for player */
+/* Draws scoreboard for player */
 void draw_scoreboard(int matchShapes[]);
+
+/* Draws congrats for player */
+void draw_congrats(void);
 
 /* Draws display shapes for current lvl for player */
 void draw_lvl_shapes(int shape);

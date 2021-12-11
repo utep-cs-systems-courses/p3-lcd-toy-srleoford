@@ -502,11 +502,11 @@ void draw_button_outline_X(void){
   int y2 = buttonX.line_y2-1;
   int top_left_x = x1 + 2;
   int top_left_y = y1;
-  int top_right_x = top_left_x + buttonX.outWidth - 1;
+  int top_right_x = top_left_x + buttonX.outWidth - 2;
   int top_right_y = top_left_y;
   int bottom_left_x = top_left_x;
   int bottom_left_y = y1 + buttonX.inHeight;
-  int bottom_right_x = top_right_x - 1;
+  int bottom_right_x = top_right_x;
   int bottom_right_y = bottom_left_y;
   
   for (i = 1; i < (lineLength/2)+1; i++){
@@ -588,25 +588,25 @@ void draw_X(ex x){
   
   int i;
   int lineLength = (x.line_x2 - x.line_x1) + x.inWidth;
+  int x1 = x.line_x1;
+  int x2 = x.line_x2;
+  int y1 = x.line_y1;
+  int y2 = x.line_y2;
   
-  /* Draw the 1st line from top left to bottom right */
-  /* Draw the 2nd line from top left to bottom right */
-  /* Draw the 3rd line from bottom left to top right */
   for (i = 1; i < lineLength; i++){
     // Draw 1st line from top left to bottom right
-    drawPixel(x.line_x1 + i, x.line_y1 + i, x.color);
+    drawPixel(x1 + i, y1 + i, x.color);
     // Draw 2nd line from top left to bottom right
-    drawPixel(x.line_x2 + i, x.line_y2 + i, x.color);
+    drawPixel(x2 + i, y2 + i, x.color);
     // Draw 3rd line from bottom left to top right, mirror over X-axis of 1st line
-    drawPixel(x.line_x1 + i, (x.line_y1 + x.inHeight) - i, x.color);
+    drawPixel(x1 + i, (y1 + x.inHeight) - i, x.color);
     // Draw 4th line from bottom left to top right, mirror over X-axis of 2nd line
-    drawPixel(x.line_x2 + i, (x.line_y2 + x.outHeight) - i, x.color);
-    // Fill in between lines
+    drawPixel(x2 + i, (y2 + x.outHeight) - i, x.color);
     if (i < lineLength - 1){
       //Fill between lines 1 and 2
-      drawPixel(x.line_x1 + 1 + i, x.line_y1 + i, x.color);
+      drawPixel(x1 + 1 + i, y1 + i, x.color);
       //Fill between lines 3 and 4
-      drawPixel(x.line_x1 + 1 + i, (x.line_y1 + x.inHeight) - i, x.color);
+      drawPixel(x1 + 1 + i, (y1 + x.inHeight) - i, x.color);
     }
   }
 }
@@ -636,56 +636,55 @@ void drawLines(u_int x_coord, u_int y_coord, u_int x_point, u_int y_point, u_int
 void draw_matching_shapes(int gameShapes[]){
   int pos = HISTORY_X_POS;
   // correct is circle, incorrect is X
-  
-  for (int i = 0; i < level; i++){
-    switch (gameShapes[i]){
-    case 1:
-      //Prime position by wiping out old pixels
-      noShape.rect_x = (pos * i) + 10;
-      noShape.rect_inner_x = noShape.rect_x + 2;
-      noShape.rect_inner_y = noShape.rect_y + 2;
-      noShape.color = bgColor;
-      draw_rectangle(noShape);
+  if(level < 11){  
+    for (int i = 0; i < level; i++){
+      switch (gameShapes[i]){
+      case 1:
+	//Prime position by wiping out old pixels
+	noShape.rect_x = (pos * i) + noShape.width/2;
+	noShape.rect_y = HISTORY_Y_POS - noShape.height/2;
+	noShape.color = bgColor;
+	fillRectangle(noShape.rect_x, noShape.rect_y-1, noShape.width, noShape.height+2, noShape.color);
+	//Draw shape after spot's been cleared
+	correct.cir_x = (pos * i) + correct.r*2;
+	correct.cir_y = HISTORY_Y_POS;
+	correct.inner_cir_x = correct.cir_x + 12;
+	correct.inner_cir_y = correct.cir_y + 2;
+	draw_circle(correct);
+	break;
+      case 0:
+	//Prime position by wiping out old pixels
+	noShape.rect_x = (pos * i) + noShape.width/2;
+	noShape.rect_y = HISTORY_Y_POS - noShape.height/2;
+	noShape.color = bgColor;
+	fillRectangle(noShape.rect_x, noShape.rect_y-1, noShape.width, noShape.height+2, noShape.color);
+	//Draw shape after spot's been cleared
+	incorrect.line_x1 = (pos * i) + (incorrect.outWidth/2) - 1;
+	incorrect.line_x2 = (pos * i) + (incorrect.inWidth/2) + 1;
+	incorrect.line_y1 = HISTORY_Y_POS - (incorrect.inHeight/2);
+	incorrect.line_y2 = HISTORY_Y_POS - (incorrect.outHeight/2);
+	draw_X(incorrect);
+	break;
+      default:
+	//Prime position by wiping out old pixels
+	noShape.rect_x = (pos * i) + noShape.width;
+	noShape.rect_y = HISTORY_Y_POS;
+	noShape.color = bgColor;
+	fillRectangle(noShape.rect_x, noShape.rect_y-1, noShape.width, noShape.height+2, noShape.color);
 
-      //Draw shape after spot's been cleared
-      correct.cir_x = (pos * i) + 9;
-      correct.cir_y = HISTORY_Y_POS;
-      correct.inner_cir_x = correct.cir_x + 12;
-      correct.inner_cir_y = correct.cir_y + 2;
-      draw_circle(correct);
-      break;
-    case 0:
-      //Prime position by wiping out old pixels
-      noShape.rect_x = (pos * i) + 10;
-      noShape.rect_inner_x = noShape.rect_x + 2;
-      noShape.rect_inner_y = noShape.rect_y + 2;
-      noShape.color = bgColor;
-      draw_rectangle(noShape);
-
-      //Draw shape after spot's been cleared
-      incorrect.line_x1 = pos * i - (incorrect.outWidth/2) + 8;
-      incorrect.line_x2 = pos * i - (incorrect.inWidth/2) + 8;
-      incorrect.line_y1 = HISTORY_Y_POS - (incorrect.inHeight/2);
-      incorrect.line_y2 = HISTORY_Y_POS - (incorrect.outHeight/2);
-      draw_X(incorrect);
-      break;
-    default:
-      //Prime position by wiping out old pixels
-      noShape.rect_x = (pos * i) + 10;
-      noShape.rect_inner_x = noShape.rect_x + 2;
-      noShape.rect_inner_y = noShape.rect_y + 2;
-      noShape.color = bgColor;
-      draw_rectangle(noShape);
-
-      //Draw shape after spot's been cleared
-      noShape.color = COLOR_BLUE;
-      draw_rectangle(noShape);
-      break;
+	//Draw shape after spot's been cleared
+	noShape.rect_inner_x = noShape.rect_x + 2;
+	noShape.rect_inner_y = noShape.rect_y + 2;
+	noShape.color = COLOR_BLUE;
+	draw_rectangle(noShape);
+	break;
+      }
     }
   }
 }
 
 void draw_lvl_shapes(int shape){
+  
   switch(shape){
   case 0:
     clear_lvl();
@@ -706,8 +705,7 @@ void draw_lvl_shapes(int shape){
   default:
     clear_lvl();
     break;
-  }
-  
+  }  
 }
 
 void clear_lvl(void){
@@ -716,17 +714,8 @@ void clear_lvl(void){
 
 void draw_scoreboard(int matchShapes[]){
 
-  int size = 10;
-  int i;
-  int count = 0;
-  
-  for (i = 0; i < size; i++)
-    if (matchShapes[i] == 1)
-      count++;
-  count *= 10;
-
   char score[10];
-  itoa2(count, score);
+  itoa2(gameScore, score);
   reverse(score);
   char scoreboard[20] = "Score: ";
   
@@ -734,6 +723,12 @@ void draw_scoreboard(int matchShapes[]){
   
   drawString5x7(5, 5, scoreboard, COLOR_WHITE, COLOR_BLACK);  
 }
+
+void draw_congrats(void){
+  drawString5x7(15, LEVEL_Y_POS, "CONGRATULATIONS!", COLOR_LIME_GREEN, COLOR_BLACK);
+  drawString5x7(30, LEVEL_Y_POS+14, "YOU WON!!!", COLOR_LIME_GREEN, COLOR_BLACK);
+}
+
 
 void itoa2(int n, char s[]){
   int i, sign;

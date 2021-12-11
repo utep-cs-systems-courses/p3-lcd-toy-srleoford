@@ -3,12 +3,12 @@
 #include "buzzer.h"
 #include "switchesLCD.h"
 
-static enum {B = 4904, Ab = 4200, c = 3323, Bb = 3730} notes;
+static enum {wrong = 8000, right = 2000, Ab = 4200, c = 3323, Bb = 3730} notes;
 
-static int musicState = 0;
+extern int musicState, buzzRightState, buzzWrongState;
 
-void buzzer_init()
-{
+
+void buzzer_init(){
     /* 
        Direct timer A output "TA0.1" to P2.6.  
         According to table 21 from data sheet:
@@ -62,9 +62,27 @@ void fanfare(void){
 }
 
 void wrongBuzz(void){
-  buzzer_set_period(B);
+  switch(buzzWrongState){
+  case 1:
+    buzzer_set_period(wrong);
+    buzzWrongState++;
+    break;
+  default:
+    buzzer_set_period(0);
+    buzzWrongState = 0;
+    break;
+  }
 }
 
-void rightBuzz(){
-  buzzer_set_period(6000);
+void rightBuzz(void){
+  switch(buzzRightState){
+  case 1:
+    buzzer_set_period(right);
+    buzzRightState++;
+    break;
+  default:
+    buzzer_set_period(0);
+    buzzRightState = 0;
+    break;
+  }
 }

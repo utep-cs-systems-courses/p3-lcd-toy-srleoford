@@ -16,7 +16,7 @@ void __interrupt_vec(WDT_VECTOR) WDT(){
   static u_int buzzCount = 0;
 
   buzzCount++;
-  if (buzzCount >= 10){
+  if (buzzCount >= 15){
     wrongBuzz();
     rightBuzz();
     buzzCount = 0;

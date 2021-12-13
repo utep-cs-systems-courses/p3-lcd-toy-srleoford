@@ -56,7 +56,7 @@ void fanfare(void){
     musicState++;
     break;
   default:
-    musicState = 0;
+    musicState = 1;
     break;
   }
 }

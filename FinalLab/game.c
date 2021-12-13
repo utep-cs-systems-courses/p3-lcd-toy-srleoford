@@ -2,6 +2,7 @@
 #include "game.h"
 #include "draw_shapes.h"
 #include "buzzer.h"
+#include "lcddraw.h"
 
 int inputShapes[10];
 int gameShapes[10] = {1, 2, 0, 0, 1, 3, 2, 1, 1, 0};
@@ -31,8 +32,7 @@ int init_game(void){
     inputShapes[i] = matchShapes[i] = -1;
 
   gameScore = pIndex = gameIndex = musicState = buzzRightState = buzzWrongState = 0;
-  level = 1;
-  presentShapes = 1;
+  level = presentShapes = 1;
   
   draw_button_rectangle();
   draw_button_triangle();
@@ -52,7 +52,7 @@ void level_up(void){
   level++;
   for (int i = 0; i < level; i++)
     inputShapes[i] = matchShapes[i] = -1;
-  pIndex = gameIndex = 0;
+  pIndex = 0;
   presentShapes = 1;
 }
 
@@ -97,6 +97,14 @@ void update_game(void){
     draw_matching_shapes(matchShapes);
     fillRectangle(0, 125, screenWidth, 30, bgColor);
     draw_congrats();
+  }
+
+  if (gameScore < 550 && level == 11){
+    for (int i = 0; i < 10; i++)
+      matchShapes[i] = 0;
+    draw_matching_shapes(matchShapes);
+    fillRectangle(0, 125, screenWidth, 30, bgColor);
+    draw_lose_game();
   }
 }
 

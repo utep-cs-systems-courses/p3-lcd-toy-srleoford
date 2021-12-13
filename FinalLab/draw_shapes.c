@@ -684,28 +684,30 @@ void draw_matching_shapes(int gameShapes[]){
 }
 
 void draw_lvl_shapes(int shape){
-  
-  switch(shape){
-  case 0:
-    clear_lvl();
-    draw_rectangle(lvlRect);
-    break;
-  case 1:
-    clear_lvl();
-    draw_triangle(lvlTri);
-    break;
-  case 2:
-    clear_lvl();
-    draw_X(lvlX);
-    break;
-  case 3:
-    clear_lvl();
-    draw_circle(lvlCir);
-    break;
-  default:
-    clear_lvl();
-    break;
-  }  
+
+  if (gameIndex < level){ 
+    switch(shape){
+    case 0:
+      clear_lvl();
+      draw_rectangle(lvlRect);
+      break;
+    case 1:
+      clear_lvl();
+      draw_triangle(lvlTri);
+      break;
+    case 2:
+      clear_lvl();
+      draw_X(lvlX);
+      break;
+    case 3:
+      clear_lvl();
+      draw_circle(lvlCir);
+      break;
+    default:
+      clear_lvl();
+      break;
+    }
+  }
 }
 
 void clear_lvl(void){
@@ -727,6 +729,10 @@ void draw_scoreboard(int matchShapes[]){
 void draw_congrats(void){
   drawString5x7(15, LEVEL_Y_POS, "CONGRATULATIONS!", COLOR_LIME_GREEN, COLOR_BLACK);
   drawString5x7(30, LEVEL_Y_POS+14, "YOU WON!!!", COLOR_LIME_GREEN, COLOR_BLACK);
+}
+
+void draw_lose_game(void){
+  drawString5x7(5, LEVEL_Y_POS, "Sorry, but you lost", COLOR_RED, COLOR_WHITE);
 }
 
 

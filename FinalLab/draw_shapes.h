@@ -113,6 +113,9 @@ void draw_scoreboard(int matchShapes[]);
 /* Draws congrats for player */
 void draw_congrats(void);
 
+/* Draws loss for player */
+void draw_lose_game(void);
+
 /* Draws display shapes for current lvl for player */
 void draw_lvl_shapes(int shape);
 

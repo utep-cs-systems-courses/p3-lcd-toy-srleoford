@@ -15,29 +15,29 @@ void __interrupt_vec(WDT_VECTOR) WDT(){
   static u_int gameIndex = 0;
   static u_int buzzCount = 0;
 
-  /* buzzCount++; */
-  /* if (buzzCount >= 20){ */
-  /*   wrongBuzz(); */
-  /*   rightBuzz(); */
-  /*   buzzCount = 0; */
-  /* } */
+  buzzCount++;
+  if (buzzCount >= 10){
+    wrongBuzz();
+    rightBuzz();
+    buzzCount = 0;
+  }
   
-  /* musicCount++; */
-  /* if (musicCount >= 21){ */
-  /*     fanfare(); */
-  /*     musicCount = 0; */
-  /*   } */
+  musicCount++;
+  if (musicCount >= 21){
+      fanfare();
+      musicCount = 0;
+    }
 
   gameCount++;
-  if (presentShapes){
+  if (presentShapes && level < 11){
     if (gameCount == 1)
-      draw_lvl_shapes(gameShapes[gameIndex++]);
-    if (gameCount >= 125)
+  	draw_lvl_shapes(gameShapes[gameIndex++]);
+    if (gameCount >= 20)
       clear_lvl();
-    if (gameCount >= 250){
+    if (gameCount >= 25){
       gameCount = 0;
       if (gameIndex == level)
-	presentShapes = 0;
+  	presentShapes = gameIndex = 0;
     }
   }
 }
